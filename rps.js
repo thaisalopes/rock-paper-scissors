@@ -1,21 +1,45 @@
+let playerChoice = "";
+let computerChoice = "";
+let result = "";
+let i = 0;
 function computerPlay() 
 {
     const choices = ["rock", "paper", "scissors"];
     const random = Math.floor(Math.random() * choices.length);
-    return choices[random];
+    computerChoice = choices[random];
+    return computerChoice;
 }
 
-function playerPlay()
-{
-    let answer = prompt("What is your choice: Rock, Paper or Scissors?").toLowerCase();    
-    return answer;
-}
+const buttons = document.querySelectorAll('button');
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        if (i >= 5) {
+            resetGame()
+            playerChoice = button.id;
+            computerPlay();
+            playRound();
+            console.log (playerChoice);
+            console.log (computerChoice);
+            div.textContent += " " + result;
+            i++;
+            game();
+        }
+        else {
+            playerChoice = button.id;
+            computerPlay();
+            playRound();
+            console.log (playerChoice);
+            console.log (computerChoice);
+            div.textContent += " " + result;
+            i++;
+            game();
+        }
+    });
+});
+  
+const div = document.querySelector('div');
 
-function playRound()
-{ 
-    let computerChoice = computerPlay();
-    let playerChoice = playerPlay();
-    let result;
+function playRound() {   
     if(computerChoice === playerChoice) {
         result = "It's a tie";
     }
@@ -46,30 +70,36 @@ function playRound()
    return result;
 }
 
+function resetGame() {
+    playerScore = 0;
+    computerScore = 0;
+    roundResult = "";
+    finalResult = "";
+    div.textContent = "";
+    i = 0;
+}
+
 function game() {
     let playerScore = 0;
     let computerScore = 0;
-    let round = 1;
-    let roundResult;
-    while (round <=5 ){
-        roundResult = playRound();
-        round++;
+    let roundResult ="";
+    let finalResult = "";
+    if (i <5 ){
         if (roundResult === "You win") playerScore++;    
         if (roundResult === "You lose") computerScore++;
     }
-
-    if (playerScore > computerScore) {
-            finalResult = "Wow, you won!!";
-    }
-    else if (playerScore === computerScore) {
-            finalResult = "It's a tie!";
-    }
     else {
+        if (playerScore > computerScore) {
+            finalResult = "Wow, you won!!";
+        }
+        else if (playerScore === computerScore) {
+            finalResult = "It's a tie!";
+        }
+        else {
         finalResult = "Oops, you lost... try again!";
-    }
-
+        }
+        div.textContent += " Final Result = " + finalResult;
+        
 return finalResult;
+    }
 }
-    
-
-game();
